@@ -4,11 +4,16 @@ import unittest
 from gilded_rose import Item, GildedRose
 
 class GildedRoseTest(unittest.TestCase):
-    def test_foo(self):
-        items = [Item("foo", 0, 0)]
+    ITEM_NAME = 'an_item_name'
+    def test_default(self):
+        sell_in = 1
+        quality = 2
+        items = [Item(self.ITEM_NAME, sell_in, quality)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEquals("foo", items[0].name)
+        self.assertEquals(self.ITEM_NAME, items[0].name)
+        self.assertEquals(sell_in - 1, items[0].sell_in)
+        self.assertEquals(quality - 1, items[0].quality)
 
 if __name__ == '__main__':
     unittest.main()
