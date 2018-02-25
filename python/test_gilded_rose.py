@@ -3,6 +3,8 @@ import unittest
 
 from gilded_rose import Item, GildedRose
 
+AGED_BRIE = "Aged Brie"
+
 class GildedRoseTest(unittest.TestCase):
     ITEM_NAME = 'an_item_name'
     def test_default(self):
@@ -32,6 +34,15 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEquals(sell_in - 1, items[0].sell_in)
         self.assertEquals(quality, items[0].quality)
+
+    def test_aged_brie_increase_quality(self):
+        sell_in = 1
+        quality = 2
+        items = [Item(AGED_BRIE, sell_in, quality)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(sell_in - 1, items[0].sell_in)
+        self.assertEquals(quality + 1, items[0].quality)
 
 
 if __name__ == '__main__':
