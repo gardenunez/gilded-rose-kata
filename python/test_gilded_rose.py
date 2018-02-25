@@ -6,6 +6,8 @@ from gilded_rose import Item, GildedRose
 AGED_BRIE = "Aged Brie"
 SULFURAS = "Sulfuras, Hand of Ragnaros"
 BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
+CONJURED = "Conjured Mana Cake"
+
 
 class GildedRoseTest(unittest.TestCase):
     ITEM_NAME = 'an_item_name'
@@ -99,6 +101,15 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEqual(sell_in - 1, items[0].sell_in)
         self.assertEqual(0, items[0].quality)
+
+    def test_clojure_degrade_in_quality_twice_as_fast(self):
+        sell_in = 12
+        quality = 10
+        items = [Item(CONJURED, sell_in, quality)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(sell_in - 1, items[0].sell_in)
+        self.assertEqual(quality - 2, items[0].quality)
 
 if __name__ == '__main__':
     unittest.main()
