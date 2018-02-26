@@ -2,6 +2,8 @@
 import unittest
 
 from gilded_rose import Item, GildedRose
+from sell_in.sell_in_checkpoint import SellInCheckpoint
+from quality.quality_checkpoint_factory import QualityCheckpointFactory
 
 AGED_BRIE = "Aged Brie"
 SULFURAS = "Sulfuras, Hand of Ragnaros"
@@ -11,12 +13,15 @@ CONJURED = "Conjured Mana Cake"
 
 class GildedRoseTest(unittest.TestCase):
     ITEM_NAME = 'an_item_name'
+    SELL_IN_CHECKPOINT = SellInCheckpoint()
+    QUALITY_CHECKPOINT = QualityCheckpointFactory()
+
     def test_default(self):
         sell_in = 1
         quality = 2
         items = [Item(self.ITEM_NAME, sell_in, quality)]
-        gilded_rose = GildedRose(items)
-        gilded_rose.update_quality()
+        gilded_rose = GildedRose(self.SELL_IN_CHECKPOINT, self.QUALITY_CHECKPOINT)
+        gilded_rose.update_quality(items)
         self.assertEqual(self.ITEM_NAME, items[0].name)
         self.assertEqual(sell_in - 1, items[0].sell_in)
         self.assertEqual(quality - 1, items[0].quality)

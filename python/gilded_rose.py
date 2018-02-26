@@ -2,10 +2,23 @@
 
 class GildedRose(object):
 
-    def __init__(self, items):
-        self.items = items
+    def __init__(self, sell_in_checkpoint, quality_checkpoint_factory):
+        self.sell_in_checkpoint = sell_in_checkpoint
+        self.quality_checkpoint_factory = quality_checkpoint_factory
 
-    def update_quality(self):
+    def update_quality(self, items):
+        for item in items:
+            self._update_sell_in_value(item)
+            self._update_quality_value(item)
+
+    def _update_sell_in_value(self, item):
+        self.sell_in_checkpoint.update_sell_in(item)
+
+    def _update_quality_value(self, item):
+        quality_checkpoint = self.quality_checkpoint_factory.get_quality_checkpoint(item.name)
+        quality_checkpoint(item)
+
+    def _update_quality(self):
         for item in self.items:
             if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
                 if item.quality > 0:
